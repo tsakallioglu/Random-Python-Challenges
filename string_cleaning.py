@@ -1,34 +1,28 @@
-def answer(chunk,word):
-    chunk2=list(chunk)
-    i=50
-    result=[]
-    
-    while i != 0:
-            a = (''.join(chunk2)).find(word)
-            if a != -1:
-                for _ in xrange(len(word)):
-                    chunk2.pop(a)
-                
-            i = i-1
+def answer(chunk,word):  
+    comb=[]
+    i=0
+    while True:
+        i=chunk.find(word,i)
+        if i == -1:
+            break
+        comb.append(chunk[:i]+chunk[(i+len(word)):]) 
+        i=i+1
             
-    result.append(''.join(chunk2))
-    
-    chunk2=list(chunk)
-    i=50
-    
-    while i != 0:
-            a = (''.join(chunk2)).rfind(word)
-            if a != -1:
-                for _ in xrange(len(word)):
-                    chunk2.pop(a)
-                
-            i = i-1
+    for a in comb:
+        j=0
+        while True:
+            j=a.find(word,j)
             
-    result.append(''.join(chunk2))
-    result.sort()
+            if j == -1:
+                break
+            
+            if a[:j]+a[(j+len(word)):] not in comb:
+                comb.append(a[:j]+a[(j+len(word)):])
+            
+            if '' in comb:
+                return ''
+            j=j+1
     
-    return result[0]
-    
-chunk="hohololholoholoo"
-word="holo"
-print answer(chunk,word)
+    comb.sort()
+    comb.sort(key=len)
+    return comb[0]
