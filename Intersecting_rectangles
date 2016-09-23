@@ -1,0 +1,16 @@
+def multiSelection(dimensions, tasks, mouseCoordinates):
+    task_heights=[[]]
+    result=[]
+
+    task_heights[0]=[0,dimensions[1]]
+    mouse_bottom=min(mouseCoordinates[0][1],mouseCoordinates[1][1])
+    mouse_top=max(mouseCoordinates[0][1],mouseCoordinates[1][1])
+
+    for i in range(1,len(tasks)):
+        task_heights.append([task_heights[i-1][1]+dimensions[2],task_heights[i-1][1]+dimensions[2]+dimensions[1]])
+
+    for i in range(len(tasks)):
+        if not (task_heights[i][0] > mouse_top or task_heights[i][1] < mouse_bottom):
+            result.append(tasks[i])
+    
+    return result
