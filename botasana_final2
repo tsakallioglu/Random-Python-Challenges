@@ -1,0 +1,61 @@
+import itertools
+
+workingHours= 7
+tasks= [1, 4, 5, 3]
+tasks2= tasks[:] 
+j=1
+count=0
+
+while len(tasks2)>0:
+    if j > len(tasks2):
+        break
+    
+    a = list(itertools.combinations(tasks2,j))
+    x=[]
+    
+    for i in range(len(a)):
+        if sum(a[i]) == workingHours:
+            x.append(a[i])
+    
+    for u in range(len(x)):
+        flag=0
+        for h in range(j):
+            if x[u].count(x[u][h]) > tasks2.count(x[u][h]):
+                flag += 1
+        if flag == 0:
+            for k in range(j):
+                tasks2.pop(tasks2.index(x[u][k]))
+            count += 1
+    
+    j += 1
+    
+l = len(tasks2)
+
+while len(tasks2)>0:
+    if l == 0:
+        break
+    
+    a = list(itertools.combinations(tasks2,l))
+    x=[]
+    
+    for i in range(len(a)):
+        if sum(a[i]) <= workingHours:
+            x.append(a[i])
+    x=sorted(x, key=sum, reverse=True)
+    
+    for u in range(len(x)):
+        flag=0
+        for h in range(l):
+            if x[u].count(x[u][h]) > tasks2.count(x[u][h]):
+                flag += 1
+        if flag == 0:
+            for k in range(l):
+                tasks2.pop(tasks2.index(x[u][k]))
+            count += 1
+    
+    if l-1 <= len(tasks2):
+        l -= 1
+    else:
+        l=len(tasks2)
+
+print count
